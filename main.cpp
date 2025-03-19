@@ -1,85 +1,45 @@
 #include <windows.h>
 
-// IDs para os controles
-#define ID_EDIT_NAME 101
-#define ID_EDIT_PASSWORD 102
-#define ID_BUTTON_EXIT 103
-
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK Actions(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
   switch (uMsg) {
-  case WM_CREATE:
-  {
-    // Criar campo de texto para o nome
-    CreateWindow(
-        "EDIT", "",
-        WS_CHILD | WS_VISIBLE | WS_BORDER | ES_LEFT,
-        50, 50, 200, 25,
-        hwnd, (HMENU)ID_EDIT_NAME, NULL, NULL);
-
-    // Criar campo de texto para a senha
-    CreateWindow(
-        "EDIT", "",
-        WS_CHILD | WS_VISIBLE | WS_BORDER | ES_LEFT | ES_PASSWORD,
-        50, 90, 200, 25,
-        hwnd, (HMENU)ID_EDIT_PASSWORD, NULL, NULL);
-
-    // Criar botão de saída
-    CreateWindow(
-        "BUTTON", "Sair",
-        WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        100, 140, 100, 30,
-        hwnd, (HMENU)ID_BUTTON_EXIT, NULL, NULL);
-    break;
-  }
-  case WM_COMMAND: {
-    if (LOWORD(wParam) == ID_BUTTON_EXIT) {
+    case WM_DESTROY:
       PostQuitMessage(0);
+      return 0;
+    case WM_PAINT: {
+      PAINTSTRUCT ps;
+      HDC hdc = BeginPaint(hwnd, &ps);
+      // Aqui você pode adicionar código para desenhar na janela
+      EndPaint(hwnd, &ps);
+      return 0;
     }
-    break;
+    default:
+      return DefWindowProc(hwnd, uMsg, wParam, lParam);
   }
-  case WM_DESTROY: {
-    PostQuitMessage(0);
-    break;
-  }
-  default:
-    return DefWindowProc(hwnd, uMsg, wParam, lParam);
-  }
-  return 0;
 }
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
-  const char CLASS_NAME[] = "SampleWindowClass";
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) {
+  const char title[] = "Create Window";
 
-  WNDCLASS wc = {};
-
-  wc.lpfnWndProc = WindowProc;
+  WNDCLASSA wc = {};
+  wc.lpfnWndProc = Actions;
   wc.hInstance = hInstance;
-  wc.lpszClassName = CLASS_NAME;
+  wc.lpszClassName = title;
 
-  RegisterClass(&wc);
+  RegisterClassA(&wc);
 
-  HWND hwnd = CreateWindowEx(
-      0,                   // Optional window styles
-      CLASS_NAME,          // Window class
-      "Interface Gráfica", // Window text
-      WS_OVERLAPPEDWINDOW, // Window style
+  HWND hwnd = CreateWindowExA(0, title, "Janela", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInstance, NULL);
 
-      // Tamanho e posição da janela
-      CW_USEDEFAULT, CW_USEDEFAULT, 300, 250,
-
-      NULL,      // Parent window
-      NULL,      // Menu
-      hInstance, // Instance handle
-      NULL       // Additional application data
-  );
-
-  if (hwnd == NULL) {
-    return 0;
-  }
+  if (hwnd == NULL) return 0;
 
   ShowWindow(hwnd, nCmdShow);
 
-  // Loop de mensagens
+  HWND hwndButton = CreateWindowExA(
+    0, "BUTTON", "Click Me",
+    WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+    10, 10, 100, 30,
+    hwnd, (HMENU)1, hInstance, NULL
+  );
+
   MSG msg = {};
   while (GetMessage(&msg, NULL, 0, 0)) {
     TranslateMessage(&msg);
