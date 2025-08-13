@@ -5,6 +5,7 @@
 - [**Microsoft Guide**](https://learn.microsoft.com/en-us/windows/win32/learnwin32/your-first-windows-program)
 - [**Documentation PDF**](https://learn.microsoft.com/pdf?url=https%3A%2F%2Flearn.microsoft.com%2Fen-us%2Fwindows%2Fwin32%2Flearnwin32%2Ftoc.json)
 - [**Win32 API**](https://learn.microsoft.com/en-us/windows/win32/apiindex/windows-api-list)
+- [QT](https://www.qt.io/offline-installers)
 
 #
 
