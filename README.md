@@ -61,6 +61,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
   return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 ```
+
+### Build
+
+```batch
+g++ -static main.cpp modules/builders/window.cpp -o main -lgdi32
+```
+
 </details>
 
 

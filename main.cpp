@@ -1,64 +1,73 @@
 #include <windows.h>
+#include "modules/builders/window.h"
 
-LRESULT CALLBACK Actions(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+// IDs para os controles
+#define ID_EDIT_NAME 101
+#define ID_EDIT_PASSWORD 102
+#define ID_BUTTON_EXIT 103
+
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
   switch (uMsg) {
-    case WM_DESTROY:
-      PostQuitMessage(0);
-      return 0;
+  case WM_CREATE:
+  {
+    // Criar campo de texto para o nome
+    CreateWindowW(
+        L"EDIT", L"",
+        WS_CHILD | WS_VISIBLE | WS_BORDER | ES_LEFT,
+        50, 50, 200, 25,
+        hwnd, (HMENU)ID_EDIT_NAME, NULL, NULL);
 
-    case WM_SIZE:
-      InvalidateRect(hwnd, NULL, TRUE);
-      return 0;
+    // Criar campo de texto para a senha
+    CreateWindowW(
+        L"EDIT", L"",
+        WS_CHILD | WS_VISIBLE | WS_BORDER | ES_LEFT | ES_PASSWORD,
+        50, 90, 200, 25,
+        hwnd, (HMENU)ID_EDIT_PASSWORD, NULL, NULL);
 
-    case WM_PAINT: {
-      PAINTSTRUCT ps;
-      HDC hdc = BeginPaint(hwnd, &ps);
-
-      // Cor de fundo
-      HBRUSH brush = CreateSolidBrush(RGB(173, 216, 230));
-      FillRect(hdc, &ps.rcPaint, brush);
-      DeleteObject(brush);
-
-      // Texto
-      SetTextColor(hdc, RGB(0, 0, 0));
-      SetBkMode(hdc, TRANSPARENT);
-      TextOutA(hdc, 50, 50, "Test", 10);
-
-      EndPaint(hwnd, &ps);
-      return 0;
-    }
-
-    default:
-      return DefWindowProc(hwnd, uMsg, wParam, lParam);
+    // Criar botão de saída
+    CreateWindowW(
+        L"BUTTON", L"Sair",
+        WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+        100, 140, 100, 30,
+        hwnd, (HMENU)ID_BUTTON_EXIT, NULL, NULL);
+    break;
   }
+  case WM_COMMAND: {
+    if (LOWORD(wParam) == ID_BUTTON_EXIT) {
+      PostQuitMessage(0);
+    }
+    break;
+  }
+  case WM_DESTROY: {
+    PostQuitMessage(0);
+    break;
+  }
+  default:
+    return DefWindowProcW(hwnd, uMsg, wParam, lParam);
+  }
+  return 0;
 }
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) {
-  const char title[] = "Create Window";
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+  const wchar_t CLASS_NAME[] = L"SampleWindowClass";
 
-  WNDCLASSA wc = {};
-  wc.lpfnWndProc = Actions;
+  WNDCLASSW wc = {}; // Use WNDCLASSW para strings wide
+
+  wc.lpfnWndProc = WindowProc;
   wc.hInstance = hInstance;
-  wc.lpszClassName = title;
-  wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+  wc.lpszClassName = CLASS_NAME;
 
-  RegisterClassA(&wc);
+  RegisterClassW(&wc); // Use RegisterClassW para strings wide
 
-  HWND hwnd = CreateWindowExA(0, title, "Janela", WS_OVERLAPPEDWINDOW,
-    CW_USEDEFAULT, CW_USEDEFAULT, 500, 400,
-    NULL, NULL, hInstance, NULL);
+  HWND window = WindowBuilder(0, CLASS_NAME, L"Interface Gráfica", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 300, 250, NULL, NULL, hInstance, NULL);
 
-  if (hwnd == NULL) return 0;
+  if (window == NULL) {
+    return 0;
+  }
 
-  ShowWindow(hwnd, nCmdShow);
+  ShowWindow(window, nCmdShow);
 
-  CreateWindowExA(
-    0, "BUTTON", "Click Me",
-    WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
-    10, 10, 100, 30,
-    hwnd, (HMENU)1, hInstance, NULL
-  );
-
+  // Loop de mensagens
   MSG msg = {};
   while (GetMessage(&msg, NULL, 0, 0)) {
     TranslateMessage(&msg);
