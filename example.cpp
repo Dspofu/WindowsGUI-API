@@ -58,7 +58,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
   RegisterClass(&wc);
 
-  HWND hwnd = CreateWindowEx(
+  HWND hwnd = CreateWindowExW(
       0,                   // Optional window styles
       CLASS_NAME,          // Window class
       "Interface Gráfica", // Window text
@@ -73,9 +73,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
       NULL       // Additional application data
   );
 
-  if (hwnd == NULL) {
-    return 0;
-  }
+  if (hwnd == NULL) return 0;
 
   ShowWindow(hwnd, nCmdShow);
 
@@ -85,6 +83,5 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     TranslateMessage(&msg);
     DispatchMessage(&msg);
   }
-
   return 0;
 }
