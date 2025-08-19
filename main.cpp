@@ -11,11 +11,11 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
   switch (uMsg) {
     case WM_CREATE:
       // Criar campo de texto para o nome
-      inputBuilder("EDIT", "", WS_CHILD | WS_VISIBLE | WS_BORDER | ES_LEFT, 50, 50, 200, 25, hwnd, (HMENU)ID_EDIT_NAME, NULL, NULL);
+      inputBuilder(L"EDIT", L"", WS_CHILD | WS_VISIBLE | WS_BORDER | ES_LEFT, 50, 50, 200, 25, hwnd, (HMENU)ID_EDIT_NAME, NULL, NULL);
       // Criar campo de texto para a senha
-      inputBuilder("EDIT", "", WS_CHILD | WS_VISIBLE | WS_BORDER | ES_LEFT | ES_PASSWORD, 50, 90, 200, 25, hwnd, (HMENU)ID_EDIT_PASSWORD, NULL, NULL);
+      inputBuilder(L"EDIT", L"", WS_CHILD | WS_VISIBLE | WS_BORDER | ES_LEFT | ES_PASSWORD, 50, 90, 200, 25, hwnd, (HMENU)ID_EDIT_PASSWORD, NULL, NULL);
       // Criar botão de saída
-      inputBuilder("BUTTON", "Sair", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 100, 140, 100, 30, hwnd, (HMENU)ID_BUTTON_EXIT, NULL, NULL);
+      inputBuilder(L"BUTTON", L"Sair", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 100, 140, 100, 30, hwnd, (HMENU)ID_BUTTON_EXIT, NULL, NULL);
       break;
     case WM_COMMAND:
       if (LOWORD(wParam) == ID_BUTTON_EXIT)

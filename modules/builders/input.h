@@ -25,6 +25,6 @@
  * @param instance (Ignorado) O handle de instância.
  * @param param (Ignorado) Parâmetros de criação.
  */
-void inputBuilder(const char* type, const char* text, int style, int x, int y, int width, int height, HWND parent, HMENU id, HINSTANCE instance, LPVOID param);
+void inputBuilder(LPCWSTR className, LPCWSTR text, int style, int x, int y, int width, int height, HWND parent, HMENU id, HINSTANCE instance, LPVOID param);
 
 #endif

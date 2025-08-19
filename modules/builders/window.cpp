@@ -1,9 +1,9 @@
 #include "window.h"
 
-HWND WindowBuilder(int style, LPCWSTR CLASS_NAME, LPCWSTR title, int window_style, int x, int y, int width, int height, HWND parent, HMENU menu, HINSTANCE instance, LPVOID param) {
+HWND WindowBuilder(int style, LPCWSTR className, LPCWSTR title, int window_style, int x, int y, int width, int height, HWND parent, HMENU menu, HINSTANCE instance, LPVOID param) {
   return CreateWindowExW(
     style, // Optional window styles
-    CLASS_NAME, // Window class
+    className, // Window class
     title, // Window title
     window_style,  // Window style
     x, y, width, height,

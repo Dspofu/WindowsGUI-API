@@ -70,7 +70,6 @@ g++ -static main.cpp modules/builders/window.cpp -o main -lgdi32
 
 </details>
 
-
 ### Repositorio para estudos
 #### Objetivos Tela:
 > Concluidos [0/6]<br>

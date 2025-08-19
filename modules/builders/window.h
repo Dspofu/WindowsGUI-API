@@ -28,6 +28,6 @@
  * @note A função assume que o modo Unicode está sendo usado (LPCWSTR).
  */
 
-HWND WindowBuilder(int style, LPCWSTR CLASS_NAME, LPCWSTR title, int window_style, int x, int y, int width, int height, HWND parent, HMENU menu, HINSTANCE instance, LPVOID param);
+HWND WindowBuilder(int style, LPCWSTR className, LPCWSTR title, int window_style, int x, int y, int width, int height, HWND parent, HMENU menu, HINSTANCE instance, LPVOID param);
 
 #endif
